@@ -6,14 +6,15 @@ jobs:
     steps:
       - name: Checkout 🛎
         uses: actions/checkout@v2
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build the app
+        run: npm run build
+
+      - name: Start the app
+        run: npm start &
 
       - name: Run Cypress tests 🧪
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
-          start: npm start
-          wait-on: 'http://localhost:8080'
-        env:
-          # pass the record key as environment variable
-          # during this CI step
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+        run: npm run cy:run
